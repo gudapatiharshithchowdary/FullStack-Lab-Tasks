@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; }
+    .login-container {
+      width: 300px; margin: 100px auto; padding: 20px;
+      background: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%; padding: 10px; margin: 10px 0;
+      border: 1px solid #ccc; border-radius: 3px;
+    }
+    button {
+      width: 100%; padding: 10px; background: #28a745;
+      color: #fff; border: none; border-radius: 3px; cursor: pointer;
+    }
+    button:hover { background: #218838; }
+    .error { color: red; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <div id="errorMsg" class="error"></div>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (username === "" || password === "") {
+        errorMsg.textContent = "All fields are required.";
+        return;
+      }
+
+      // Send credentials to backend for validation
+      fetch("login.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = "dashboard.html";
+        } else {
+          errorMsg.textContent = data.message;
+        }
+      })
+      .catch(() => {
+        errorMsg.textContent = "Server error. Please try again.";
+      });
+    });
+  </script>
+</body>
+</html>
