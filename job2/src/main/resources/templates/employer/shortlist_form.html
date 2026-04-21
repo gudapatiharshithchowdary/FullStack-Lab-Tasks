@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Shortlist Candidate - Job Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav>
+        <h2><a href="/" style="margin-left:0; color:var(--primary-color);">JobPortal</a></h2>
+        <div><a th:href="@{/employer/job/applicants/{id}(id=${application.job.id})}">Back to Applicants</a></div>
+    </nav>
+    <div class="glass-container" style="max-width: 700px;">
+        <h2>Shortlist Candidate: <span th:text="${application.applicant.name}"
+                style="color:var(--primary-color);"></span></h2>
+        <p>Please provide the screening details to send an automated confirmation email to the candidate.</p>
+
+        <form th:action="@{/employer/application/shortlist/{id}(id=${application.id})}" th:object="${screeningDetails}"
+            method="post">
+            <div class="form-group">
+                <label>Date</label>
+                <input type="text" th:field="*{date}" class="form-control" placeholder="e.g. 2026-05-15" required />
+            </div>
+            <div class="form-group">
+                <label>Time</label>
+                <input type="text" th:field="*{time}" class="form-control" placeholder="e.g. 10:00 AM IST" required />
+            </div>
+            <div class="form-group">
+                <label>Mode</label>
+                <select th:field="*{mode}" class="form-control" required>
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Platform / Location</label>
+                <input type="text" th:field="*{platformLocation}" class="form-control"
+                    placeholder="e.g. Zoom Link / Office Address" required />
+            </div>
+            <div class="form-group">
+                <label>Contact Information</label>
+                <textarea th:field="*{contactInformation}" class="form-control" rows="3"
+                    placeholder="Phone number or HR Email for queries..." required></textarea>
+            </div>
+            <button type="submit" class="btn" style="width: 100%; background: #50e3c2; color: #000;">Shortlist and Send
+                Email</button>
+        </form>
+    </div>
+</body>
+
+</html>

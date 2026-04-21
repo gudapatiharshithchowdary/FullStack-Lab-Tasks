@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Browse Jobs - Job Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav>
+        <h2><a href="/" style="margin-left:0; color:var(--primary-color);">JobPortal</a></h2>
+        <div><a th:href="@{/student/dashboard}">Back to Dashboard</a></div>
+    </nav>
+    <div class="glass-container">
+        <h2>Available Jobs</h2>
+        <div th:if="${param.success}" class="alert alert-success">Successfully applied for the job!</div>
+
+        <input type="text" id="searchInput" class="dynamic-search-box"
+            placeholder="Search for jobs by title, skills, or company..." onkeyup="filterTable()">
+
+        <table id="jobsTable">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Employer</th>
+                    <th>Skills Required</th>
+                    <th>Salary</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="job : ${jobs}">
+                    <td style="font-weight: bold;" th:text="${job.title}"></td>
+                    <td th:text="${job.employer.name}"></td>
+                    <td th:text="${job.skillsRequired}"></td>
+                    <td th:text="${job.salary}"></td>
+                    <td>
+                        <a th:href="@{/student/job/apply/{id}(id=${job.id})}" class="btn"
+                            style="padding: 0.4rem 1rem;">Apply Now</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("jobsTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Job Portal Management System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <nav>
+        <h2><a href="/" style="margin-left:0; color:var(--primary-color);">JobPortal</a></h2>
+        <div>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}" class="btn">Register</a>
+        </div>
+    </nav>
+    <div class="glass-container" style="text-align: center; margin-top: 10vh;">
+        <h1 style="font-size: 3rem; margin-bottom: 0.5rem; color: var(--primary-color);">Welcome to JobPortal</h1>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem;">Connecting talented students with top employers seamlessly.</p>
+        <div>
+            <a th:href="@{/register}" class="btn" style="margin-right: 1rem;">Get Started</a>
+            <a th:href="@{/login}" class="btn btn-secondary">Login to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

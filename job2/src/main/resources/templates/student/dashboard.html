@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Student Dashboard - Job Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav>
+        <h2><a href="/" style="margin-left:0; color:var(--primary-color);">JobPortal</a></h2>
+        <div>
+            <a th:href="@{/student/jobs}" class="btn" style="margin-right:1rem;">Browse Jobs</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-secondary">Logout</button>
+            </form>
+        </div>
+    </nav>
+    <div class="glass-container">
+        <h2>Welcome, <span th:text="${user.name}" style="color:var(--primary-color);"></span>!</h2>
+
+        <div th:if="${param.error}" class="alert alert-error">Please upload a resume before applying.</div>
+
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 2rem;">
+            <!-- Profile Section -->
+            <div style="flex: 1; background: rgba(0,0,0,0.05); padding: 1.5rem; border-radius: 12px; min-width: 300px;">
+                <h3>Your Resume</h3>
+                <p>Resume:
+                    <span th:if="${user.resumePath != null}"
+                        style="color:var(--secondary-color); font-weight:bold;">Uploaded</span>
+                    <span th:if="${user.resumePath == null}" style="color:tomato;">Not Uploaded</span>
+                </p>
+                <p>Profile Status:
+                    <span th:if="${user.status != null}" th:text="${user.status}"
+                        th:style="${user.status == 'SHORTLISTED' ? 'color: #50e3c2; font-weight: bold;' : (user.status == 'REJECTED' ? 'color: tomato; font-weight: bold;' : 'font-weight: bold;')}"></span>
+                    <span th:if="${user.status == null}">NEW</span>
+                </p>
+                <form method="POST" enctype="multipart/form-data" th:action="@{/student/uploadResume}">
+                    <div class="form-group">
+                        <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" required />
+                    </div>
+                    <button class="btn" type="submit">Upload Resume</button>
+                </form>
+            </div>
+
+            <!-- Applications Section -->
+            <div style="flex: 2; background: rgba(0,0,0,0.05); padding: 1.5rem; border-radius: 12px; min-width: 300px;">
+                <h3>My Applications</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Employer</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="app : ${applications}">
+                            <td th:text="${app.job.title}"></td>
+                            <td th:text="${app.job.employer.name}"></td>
+                            <td th:text="${app.status}"
+                                th:style="${app.status == 'SHORTLISTED' ? 'color: #50e3c2; font-weight: bold;' : (app.status == 'REJECTED' ? 'color: tomato;' : '')}">
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(applications)}">
+                            <td colspan="3" style="text-align:center;">You haven't applied to any jobs yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Reject Candidate - Job Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav>
+        <h2><a href="/" style="margin-left:0; color:var(--primary-color);">JobPortal</a></h2>
+        <div><a th:href="@{/employer/job/applicants/{id}(id=${application.job.id})}">Back to Applicants</a></div>
+    </nav>
+    <div class="glass-container" style="max-width: 700px;">
+        <h2>Reject Candidate: <span th:text="${application.applicant.name}" style="color:var(--primary-color);"></span>
+        </h2>
+        <p>Please provide your signature details to send an automated rejection email to the candidate.</p>
+
+        <form th:action="@{/employer/application/reject/{id}(id=${application.id})}" th:object="${rejectionDetails}"
+            method="post">
+            <div class="form-group">
+                <label>Company Name</label>
+                <input type="text" th:field="*{companyName}" class="form-control"
+                    th:placeholder="'e.g. ' + ${application.job.employer.name}" required />
+            </div>
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" th:field="*{yourName}" class="form-control"
+                    th:placeholder="'e.g. ' + ${application.job.employer.name}" required />
+            </div>
+            <div class="form-group">
+                <label>Your Position</label>
+                <input type="text" th:field="*{yourPosition}" class="form-control" placeholder="e.g. HR Manager"
+                    required />
+            </div>
+            <button type="submit" class="btn" style="width: 100%; background: tomato; color: white;">Reject and Send
+                Email</button>
+        </form>
+    </div>
+</body>
+
+</html>

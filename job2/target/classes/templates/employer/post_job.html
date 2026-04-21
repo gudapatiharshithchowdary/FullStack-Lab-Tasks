@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Post a Job - Job Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav>
+        <h2><a href="/" style="margin-left:0; color:var(--primary-color);">JobPortal</a></h2>
+        <div><a th:href="@{/employer/dashboard}">Back to Dashboard</a></div>
+    </nav>
+    <div class="glass-container" style="max-width: 700px;">
+        <h2>Post a New Job</h2>
+        <form th:action="@{/employer/job}" th:object="${job}" method="post">
+            <div class="form-group">
+                <label>Job Title</label>
+                <input type="text" th:field="*{title}" class="form-control" placeholder="e.g. Senior Java Developer"
+                    required />
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea th:field="*{description}" class="form-control" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Skills Required</label>
+                <input type="text" th:field="*{skillsRequired}" class="form-control"
+                    placeholder="e.g. Java, Spring Boot, MySQL" required />
+            </div>
+            <div class="form-group">
+                <label>Salary (Optional)</label>
+                <input type="text" th:field="*{salary}" class="form-control" placeholder="e.g. $80,000 - $100,000" />
+            </div>
+            <button type="submit" class="btn" style="width: 100%;">Create Job</button>
+        </form>
+    </div>
+</body>
+
+</html>

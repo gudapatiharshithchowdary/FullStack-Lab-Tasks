@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>View Applicants - Job Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav>
+        <h2><a href="/" style="margin-left:0; color:var(--primary-color);">JobPortal</a></h2>
+        <div><a th:href="@{/employer/dashboard}">Back to Dashboard</a></div>
+    </nav>
+    <div class="glass-container">
+        <h2>Applicants for: <span th:text="${job.title}" style="color:var(--primary-color);"></span></h2>
+        
+        <div th:if="${param.success}" class="alert alert-success" style="background: #50e3c2; color: #000; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: bold;">
+            Applicant status updated successfully! The candidate has been notified.
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Applicant Name</th>
+                    <th>Email</th>
+                    <th>Resume</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="app : ${applications}">
+                    <td th:text="${app.applicant.name}"></td>
+                    <td th:text="${app.applicant.email}"></td>
+                    <td>
+                        <a th:if="${app.applicant.resumePath != null}"
+                            th:href="@{/downloadResume/{filename}(filename=${app.applicant.resumePath})}"
+                            style="color: var(--secondary-color); text-decoration: none;">Download Resume</a>
+                        <span th:if="${app.applicant.resumePath == null}">No Resume</span>
+                    </td>
+                    <td>
+                        <span th:text="${app.status}"
+                            th:style="${app.status == 'SHORTLISTED' ? 'color: #50e3c2; font-weight: bold;' : (app.status == 'REJECTED' ? 'color: tomato;' : '')}">
+                        </span>
+                    </td>
+                    <td>
+                        <a th:href="@{/employer/application/shortlist/{id}(id=${app.id})}" class="btn"
+                            style="padding: 0.3rem 0.5rem; font-size: 0.8em; background: #50e3c2; color: #000;">Shortlist</a>
+                        <a th:href="@{/employer/application/reject/{id}(id=${app.id})}" class="btn"
+                            style="padding: 0.3rem 0.5rem; font-size: 0.8em; background: tomato;">Reject</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(applications)}">
+                    <td colspan="5" style="text-align:center;">No applications yet.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

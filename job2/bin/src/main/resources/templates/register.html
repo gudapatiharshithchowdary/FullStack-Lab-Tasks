@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Register - Job Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav>
+        <h2><a href="/" style="margin-left:0; color:var(--primary-color);">JobPortal</a></h2>
+        <div><a th:href="@{/login}">Login</a></div>
+    </nav>
+    <div class="glass-container" style="max-width: 600px;">
+        <h2>Create an Account</h2>
+        <form th:action="@{/register}" th:object="${user}" method="post">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" th:field="*{name}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" th:field="*{email}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" th:field="*{username}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" th:field="*{password}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>I am a...</label>
+                <select th:field="*{role}" class="form-control" required>
+                    <option value="ROLE_STUDENT">Student (Looking for jobs)</option>
+                    <option value="ROLE_EMPLOYER">Employer (Posting jobs)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn" style="width: 100%;">Register</button>
+        </form>
+    </div>
+</body>
+
+</html>
